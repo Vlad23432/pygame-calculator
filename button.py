@@ -24,15 +24,23 @@ class button:
         text_rect.center = (self.x + self.width / 2, self.y + self.height / 2)
         screen.blit(text_image, text_rect)
 
-    def draw(self, screen):
+    def draw(self, screen, isClicked):
         mousePos = pygame.mouse.get_pos()
         if self.x + self.width > mousePos[0] > self.x and self.y + self.height > mousePos[1] > self.y:
             color = self.colorHover
         else:
             color = self.color
+
         pygame.draw.rect(screen, '#FFFFFF', (self.x, self.y, self.width, self.height))
         pygame.draw.rect(screen, color, (self.x + 2, self.y + 2, self.width - 4, self.height - 4))
         self.draw_text(screen)
+        if isClicked:
+            self.click()
 
     def click(self):
-        return
+        mousePos = pygame.mouse.get_pos()
+        if self.x + self.width > mousePos[0] > self.x \
+            and self.y + self.height > mousePos[1] > self.y \
+            and pygame.mouse.get_pressed()[0]:
+            print(self.text)
+            return self.text

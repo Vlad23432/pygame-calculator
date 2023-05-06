@@ -26,12 +26,13 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-
-    screen.fill('#ffffff')
-
+        if event.type == pygame.MOUSEBUTTONUP:
+            isClicked = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            isClicked = True
+    screen.fill('#000000')
     for btn in buttonsObjects:
-        btn.draw(screen)
-
+        btn.draw(screen, isClicked)
     pygame.display.flip()
 
 pygame.quit()
