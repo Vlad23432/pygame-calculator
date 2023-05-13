@@ -5,6 +5,20 @@ bounds = (360, 640)
 # buttonrovno = button.button('#000000', '#696969', '=', 90, 90, bounds, bounds[0] - 360, bounds[1] - 90 )
 screen = pygame.display.set_mode(bounds)
 
+maintext = ''
+operatorA = 0
+operatorB = 0
+result = 0
+
+def draw_text(text, screen, bounds):
+    font_name = pygame.font.match_font('arial')
+    font = pygame.font.Font(font_name, 65)
+    text_image = font.render(text, True, '#FFFFFF')
+    text_rect = text_image.get_rect()
+    text_rect.right = bounds[0] - 15
+    text_rect.top = bounds[1] - 575
+    screen.blit(text_image, text_rect)
+
 pygame.display.set_caption('Calculator')
 clock = pygame.time.Clock()
 buttons = ['0', ',', '=', '1', '2', '3', '+','4','5','6','-','7','8','9','x','AC','+/-','%','/']
@@ -32,7 +46,40 @@ while run:
             isClicked = True
     screen.fill('#000000')
     for btn in buttonsObjects:
-        btn.draw(screen, isClicked)
+        text = btn.draw(screen, isClicked, maintext)
+        if text and text[0] == 'operand':
+            if text[1] != '=':
+                operand = text[1]
+                if not operatorA:
+                    operatorA = maintext
+                    maintext = ''
+                else:
+                    operatorB = maintext
+                    maintext = ''
+            else:
+                if not operatorB:
+                    operatorB = maintext
+                if operand == '+':
+                    maintext = str(int(operatorA) + int(operatorB))
+                elif operand == '-':
+                    maintext = str(int(operatorA) - int(operatorB))
+                elif operand == 'x':
+                    maintext = str(int(operatorA) * int(operatorB))
+                elif operand == '/':
+                    maintext = str(int(operatorA) / int(operatorB))
+                elif operand == '%':
+                    maintext = str(int(operatorA) /100)
+                operand = '='
+        elif text and text[0] == 'method':
+            if text[1] == 'AC':
+                maintext = ''
+                operatorA = 0
+                operatorB = 0
+                operand = ''
+                result = 0
+            maintext += text
+    draw_text(maintext, screen, bounds)
+
     pygame.display.flip()
 
 pygame.quit()

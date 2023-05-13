@@ -1,21 +1,25 @@
 import pygame
+import operands
+
+
 class button:
     color = None
     colorHover = None
     text = None
-    widht = None
+    width = None
     height = None
     bounds = None
 
-    def __init__(self, color, colorHover, text, widht, height, bounds, x ,y):
+    def __init__(self, color, colorHover, text, width, height, bounds, x, y):
         self.color = color
         self.colorHover = colorHover
         self.text = text
-        self.width = widht
+        self.width = width
         self.height = height
         self.bounds = bounds
         self.x = x
         self.y = y
+
     def draw_text(self, screen):
         font_name = pygame.font.match_font('arial')
         font = pygame.font.Font(font_name, 45)
@@ -24,7 +28,7 @@ class button:
         text_rect.center = (self.x + self.width / 2, self.y + self.height / 2)
         screen.blit(text_image, text_rect)
 
-    def draw(self, screen, isClicked):
+    def draw(self, screen, isClicked, maintext):
         mousePos = pygame.mouse.get_pos()
         if self.x + self.width > mousePos[0] > self.x and self.y + self.height > mousePos[1] > self.y:
             color = self.colorHover
@@ -35,12 +39,16 @@ class button:
         pygame.draw.rect(screen, color, (self.x + 2, self.y + 2, self.width - 4, self.height - 4))
         self.draw_text(screen)
         if isClicked:
-            self.click()
+            return self.click(maintext)
 
     def click(self):
         mousePos = pygame.mouse.get_pos()
         if self.x + self.width > mousePos[0] > self.x \
-            and self.y + self.height > mousePos[1] > self.y \
-            and pygame.mouse.get_pressed()[0]:
-            print(self.text)
-            return self.text
+                and self.y + self.height > mousePos[1] > self.y \
+                and pygame.mouse.get_pressed()[0]:
+            if operands.getTypeCommand(self.text) == 'number':
+                return self.text
+            elif operands.getTypeCommand(self.text) == 'operand':
+                return ['operand', self.text]
+            else:
+                return ['method', self.text]
