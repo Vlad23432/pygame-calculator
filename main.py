@@ -6,6 +6,7 @@ bounds = (360, 640)
 screen = pygame.display.set_mode(bounds)
 
 maintext = ''
+operand = ''
 operatorA = 0
 operatorB = 0
 result = 0
@@ -69,6 +70,8 @@ while run:
                     maintext = str(int(operatorA) / int(operatorB))
                 elif operand == '%':
                     maintext = str(int(operatorA) /100)
+                elif operand == ',':
+                    maintext = str(int(operatorA) / 10)
                 operand = '='
         elif text and text[0] == 'method':
             if text[1] == 'AC':
@@ -77,7 +80,23 @@ while run:
                 operatorB = 0
                 operand = ''
                 result = 0
+            elif text[1] == '+/-':
+                if len(maintext) != 0:
+                    if maintext[0] != '-':
+                        maintext = '-' + maintext
+                    else:
+                        maintext = maintext.replace('-', '')
+                else:
+                    maintext = '-'
+        elif text:
+            if operand == '=':
+                maintext = ''
+                operatorA = 0
+                operatorB = 0
+                operand = ''
+                result = 0
             maintext += text
+
     draw_text(maintext, screen, bounds)
 
     pygame.display.flip()

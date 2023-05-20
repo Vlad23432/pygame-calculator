@@ -39,7 +39,7 @@ class button:
         pygame.draw.rect(screen, color, (self.x + 2, self.y + 2, self.width - 4, self.height - 4))
         self.draw_text(screen)
         if isClicked:
-            return self.click(maintext)
+            return self.click()
 
     def click(self):
         mousePos = pygame.mouse.get_pos()
