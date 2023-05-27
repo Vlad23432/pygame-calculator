@@ -19,4 +19,4 @@ def getTypeCommand(text):
     if text in methods.keys():
         return 'method'
     if text in operands.keys():
-        return operands
+        return 'operand'

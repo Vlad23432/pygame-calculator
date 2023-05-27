@@ -70,8 +70,6 @@ while run:
                     maintext = str(int(operatorA) / int(operatorB))
                 elif operand == '%':
                     maintext = str(int(operatorA) /100)
-                elif operand == ',':
-                    maintext = str(int(operatorA) / 10)
                 operand = '='
         elif text and text[0] == 'method':
             if text[1] == 'AC':
